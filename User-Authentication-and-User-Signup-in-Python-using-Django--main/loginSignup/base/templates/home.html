@@ -1,0 +1,123 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <!-- Add Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJv3vF2X9V1z8QIbltP2kKk+gOXosFZx8p/sCjXfF5u5hb7mC5o2jw0kVbJ8" crossorigin="anonymous">
+    <!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    {% block content %}
+    <div class="container mt-5">
+        <!-- Main Title -->
+        <h1 class="text-center text-primary">Welcome, {{ user.username }}!</h1>
+
+        <!-- Apps and Points Box -->
+        <div class="card my-4 shadow-sm">
+            <div class="card-body">
+                <h2>Apps and Points:</h2>
+                <ul class="list-group">
+                    <li class="list-group-item bg-success text-white">
+                        <i class="fab fa-whatsapp"></i> WhatsApp: 10
+                    </li>
+                    <li class="list-group-item bg-danger text-white">
+                        <i class="fab fa-instagram"></i> Instagram: 20
+                    </li>
+                    <li class="list-group-item bg-primary text-white">
+                        <i class="fab fa-facebook-f"></i> Facebook: 30
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Apps List -->
+        <div class="card my-4 shadow-sm">
+            <div class="card-body">
+                <h2>Apps:</h2>
+                <ul class="list-group">
+                    {% for app in apps %}
+                        <li class="list-group-item">
+                            {% if app.name == 'WhatsApp' %}
+                                <i class="fab fa-whatsapp"></i>
+                            {% elif app.name == 'Instagram' %}
+                                <i class="fab fa-instagram"></i>
+                            {% elif app.name == 'Facebook' %}
+                                <i class="fab fa-facebook-f"></i>
+                            {% endif %}
+                            {{ app.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tasks List -->
+        <div class="card my-4 shadow-sm">
+            <div class="card-body">
+                <h2>Take a screenshot of corresponding apps and upload it:</h2>
+                <ul class="list-group">
+                    {% for task in tasks %}
+                        <li class="list-group-item">App: {{ task.app.name }} - Completed: {{ task.completed }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Upload Screenshot Section -->
+        <div class="card my-4 shadow-sm">
+            <div class="card-body">
+                <h2>Upload Screenshot:</h2>
+
+                <!-- WhatsApp Upload -->
+                <div class="mb-3">
+                    <h4 class="bg-success text-white p-2">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="screenshot_whatsapp" accept="image/*" class="form-control mb-2" required>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fab fa-whatsapp"></i> Upload WhatsApp Screenshot
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Instagram Upload -->
+                <div class="mb-3">
+                    <h4 class="bg-danger text-white p-2">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="screenshot_instagram" accept="image/*" class="form-control mb-2" required>
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="fab fa-instagram"></i> Upload Instagram Screenshot
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Facebook Upload -->
+                <div class="mb-3">
+                    <h4 class="bg-primary text-white p-2">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="screenshot_facebook" accept="image/*" class="form-control mb-2" required>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fab fa-facebook-f"></i> Upload Facebook Screenshot
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout Section -->
+        <a href="{% url 'base:logout' %}" class="btn btn-outline-primary d-block text-center mt-4">Logout</a>
+    </div>
+    {% endblock %}
+
+    <!-- Add Bootstrap JS and Popper.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybF6yO/xoA4j5JmjP6g0jw6m3jJ2rs1J6WkG0trhS/h6OHt8A" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyrl4Xj2LqpnzKdxwrQW/t+UqigLz9ANIB6kpPYJXrSKcXb7p5oBBh5" crossorigin="anonymous"></script>
+</body>
